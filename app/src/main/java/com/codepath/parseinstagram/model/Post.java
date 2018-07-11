@@ -12,6 +12,7 @@ public class Post extends ParseObject {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_IMAGE = "image";
     private static final String KEY_USER = "user";
+    private static final String KEY_HANDLE = "handle";
 
     // getPhotoFileUri() is defined in
 // https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media#using-capture-intent
@@ -28,6 +29,8 @@ public class Post extends ParseObject {
         put(KEY_DESCRIPTION, description);
     }
 
+    public void setHandle(String handle) {put(KEY_HANDLE, handle);}
+
     public ParseFile getImage(){
         return getParseFile(KEY_IMAGE);
     }
@@ -39,6 +42,8 @@ public class Post extends ParseObject {
     public ParseUser getUser(){
         return getParseUser(KEY_USER);
     }
+
+    public String getHandle(){return getString(KEY_HANDLE);}
 
     public void setUser(ParseUser user){
         put(KEY_USER, user);

@@ -17,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.codepath.parseinstagram.model.Post;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button createButton;
     private Button refreshButton;
     private Button takephotoButton;
+    private Button postBtn;
     private ImageView picView;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -63,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
 
-        //loadTopPosts();
+        loadTopPosts();
         View view = findViewById(R.id.homeLayout);
 
 
@@ -95,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
                 //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
                 //if (intent.resolveActivity(getPackageManager()) != null) {
-                    // Start the image capture intent to take photo
+                // Start the image capture intent to take photo
                 //    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                 //}
 //                dispatchTakePictureIntent();
@@ -103,10 +107,18 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        postBtn = findViewById(R.id.postBtn2);
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FeedActivity.class);
+                startActivity(intent);
 
+            }
+        });
     }
 
-    /*private void loadTopPosts() {
+    private void loadTopPosts() {
 
         final Post.Query postQuery = new Post.Query();
         postQuery.getTop().withUser();
@@ -125,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-    }*/
+    }
 
     // Added to attempt to take photos using app
 

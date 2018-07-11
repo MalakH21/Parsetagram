@@ -11,21 +11,23 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="192dp"
-        android:layout_height="53dp"
-        android:layout_centerInParent="true"
+        android:layout_width="107dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="169dp"
         android:text="Button"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="219dp" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="193dp"
-        android:layout_height="54dp"
+        android:id="@+id/postBtn2"
+        android:layout_width="111dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="140dp"
-        android:text="Button"
+        android:layout_marginBottom="116dp"
+        android:text="Post"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="119dp" />
 
@@ -39,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="57dp"
+        android:layout_marginBottom="60dp"
         android:text="Take photo"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="426dp" />
