@@ -6,15 +6,14 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".HomeActivity"
-    tools:showIn="@layout/activity_home">
+    tools:showIn="@layout/activity_home"
+    android:id="@+id/homeLayout">
 
     <Button
         android:id="@+id/button"
         android:layout_width="192dp"
         android:layout_height="53dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
+        android:layout_centerInParent="true"
         android:text="Button"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="219dp" />
@@ -23,9 +22,9 @@
         android:id="@+id/button3"
         android:layout_width="193dp"
         android:layout_height="54dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="194dp"
+        android:layout_marginBottom="140dp"
         android:text="Button"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="119dp" />
@@ -40,8 +39,33 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="158dp"
+        android:layout_marginBottom="57dp"
         android:text="Take photo"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="426dp" />
+
+    <ImageView
+        android:id="@+id/photoSave"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="101dp" />
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
 </RelativeLayout>

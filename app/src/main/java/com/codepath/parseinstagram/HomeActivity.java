@@ -14,9 +14,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.codepath.parseinstagram.model.Post;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     public String photoFileName = "photo.jpg";
     File photoFile;
     public ImageView photoSave;
+    private static File filesDir;
 
 
     @Override
@@ -43,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.content_home);
         photoSave = (ImageView) findViewById(R.id.photoSave);
 
+        filesDir = getApplicationContext().getFilesDir();
         //descriptionInput = findViewById(R.id.description_et);
         //createButton = findViewById(R.id.create_btn);
         //refreshButton = findViewById(R.id.refresh_btn);
@@ -53,30 +64,40 @@ public class HomeActivity extends AppCompatActivity {
 
 
         //loadTopPosts();
+        View view = findViewById(R.id.homeLayout);
+
 
         takephotoButton = findViewById(R.id.takephotoButton);
         takephotoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                // create Intent to take a picture and return control to the calling application
-                // Create a File reference to access to future access
+
                 try {
-                    photoFile = getPhotoFileUri();
+                    onLaunchCamera(view);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //create Intent to take a picture and return control to the calling application
+                // Create a File reference to access to future access
+                /*try {
+                    photoFile = getPhotoFileUri(photoFileName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
+                //photoFile = getPhotoFileUri(photoFileName);
 
                 // wrap File object into a content provider
                 // required for API >= 24
                 // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-                Uri fileProvider = FileProvider.getUriForFile(HomeActivity.this, "com.codepath.parseinstagram", photoFile);
+                //Uri fileProvider = FileProvider.getUriForFile(HomeActivity.this, "com.codepath.parseinstagram", photoFile);
                 // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
                 // So as long as the result is not null, it's safe to use the intent.
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-                if (intent.resolveActivity(getPackageManager()) != null) {
+                //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                //if (intent.resolveActivity(getPackageManager()) != null) {
                     // Start the image capture intent to take photo
-                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                }
+                //    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                //}
 //                dispatchTakePictureIntent();
 
             }
@@ -108,17 +129,56 @@ public class HomeActivity extends AppCompatActivity {
 
     // Added to attempt to take photos using app
 
+    public void onLaunchCamera(View view) throws IOException {
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create a File reference to access to future access
+        photoFile = getPhotoFileUri();
+
+        // wrap File object into a content provider
+        // required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        Uri fileProvider = FileProvider.getUriForFile(HomeActivity.this, "com.codepath.parseinstagram", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             Bitmap takenImage = BitmapFactory.decodeFile(photoFileName);
             photoSave.setImageBitmap(takenImage);
+
+            // RESIZE BITMAP, see section below
+            // Load the taken image into a preview
+            ImageView ivPreview = (ImageView) findViewById(R.id.photoSave);
+            ivPreview.setImageBitmap(takenImage);
+
+            photoFile = persistImage(takenImage, "test");
+
+            ParseFile parseFile = new ParseFile(photoFile);
+            parseFile.saveInBackground();
+
+            createPost("post222", parseFile, ParseUser.getCurrentUser());
+        }else { // Result was a failure
+            Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
         }
+
+
+
+
+
     }
 
 
 
-    private File getPhotoFileUri() throws IOException {
+    public File getPhotoFileUri() throws IOException {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
@@ -140,6 +200,12 @@ public class HomeActivity extends AppCompatActivity {
         photoFileName = image.getAbsolutePath();
 
 
+
+
+
+
+
+
         // Return the file target for the photo based on filename
         //File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
 
@@ -148,13 +214,44 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+    private static File persistImage(Bitmap bitmap, String name) {
+        File imageFile = new File(filesDir, name + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e("SaveImage", "Saving image did not work");
+        }
 
 
 
 
+        return imageFile;
+    }
+
+    private void createPost(String description, ParseFile imageFile, ParseUser user){
+        Post post = new Post();
+        post.setDescription(description);
+        post.setImage(imageFile);
+        post.setUser(user);
+
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null) {
+                    Log.d("PostImage", "Post image successful");
+                } else {
+                    Log.e("PostImage", "Post image failed" );
+
+                }
+            }
+        });
 
 
 
-
-
+    }
 }

@@ -1,6 +1,5 @@
 package com.codepath.parseinstagram.model;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -13,6 +12,13 @@ public class Post extends ParseObject {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_IMAGE = "image";
     private static final String KEY_USER = "user";
+
+    // getPhotoFileUri() is defined in
+// https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media#using-capture-intent
+
+    //File photoFile = getPhotoFileUri(photoFileName);
+    //ParseFile parseFile = new ParseFile(photoFile);
+
 
     public String getDescription(){
         return getString(KEY_DESCRIPTION);
@@ -34,9 +40,13 @@ public class Post extends ParseObject {
         return getParseUser(KEY_USER);
     }
 
-    public void setUser(Parse user){
+    public void setUser(ParseUser user){
         put(KEY_USER, user);
     }
+
+    public ParseFile getMedia() { return getParseFile("media"); }
+
+    public void setMedia(ParseFile parseFile) { put("media", parseFile); }
 
     public static class Query extends ParseQuery<Post>{
         public Query(){
