@@ -177,7 +177,7 @@ public class HomeActivity extends AppCompatActivity {
             ParseFile parseFile = new ParseFile(photoFile);
             parseFile.saveInBackground();
 
-            createPost("post222", parseFile, ParseUser.getCurrentUser());
+            createPost("post222", parseFile, ParseUser.getCurrentUser(), ParseUser.getCurrentUser().getString("handle"));
         }else { // Result was a failure
             Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
         }
@@ -245,11 +245,12 @@ public class HomeActivity extends AppCompatActivity {
         return imageFile;
     }
 
-    private void createPost(String description, ParseFile imageFile, ParseUser user){
+    private void createPost(String description, ParseFile imageFile, ParseUser user, String handle){
         Post post = new Post();
         post.setDescription(description);
         post.setImage(imageFile);
         post.setUser(user);
+        post.setHandle(handle);
 
         post.saveInBackground(new SaveCallback() {
             @Override

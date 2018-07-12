@@ -13,9 +13,8 @@
         android:id="@+id/button"
         android:layout_width="107dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/postBtn2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="169dp"
         android:text="Button"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="219dp" />

@@ -1,6 +1,7 @@
 package com.codepath.parseinstagram.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -29,7 +30,7 @@ public class Post extends ParseObject {
         put(KEY_DESCRIPTION, description);
     }
 
-    public void setHandle(String handle) {put(KEY_HANDLE, handle);}
+    public void setHandle(String handle) { getUser().put(KEY_HANDLE, handle);}
 
     public ParseFile getImage(){
         return getParseFile(KEY_IMAGE);
@@ -43,7 +44,7 @@ public class Post extends ParseObject {
         return getParseUser(KEY_USER);
     }
 
-    public String getHandle(){return getString(KEY_HANDLE);}
+    public String getHandle() throws ParseException {return getUser().fetchIfNeeded().getString(KEY_HANDLE);}
 
     public void setUser(ParseUser user){
         put(KEY_USER, user);

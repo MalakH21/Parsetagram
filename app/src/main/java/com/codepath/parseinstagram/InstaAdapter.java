@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.parseinstagram.model.Post;
+import com.parse.ParseException;
 
 import java.util.List;
 
@@ -36,7 +37,11 @@ public class InstaAdapter extends RecyclerView.Adapter<InstaAdapter.ViewHolder>{
         // get the data according to position
         Post post = mPosts.get(i);
         // populate the views according to this data
-        holder.tvHandle.setText(post.getHandle());
+        try {
+            holder.tvHandle.setText(post.getHandle());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.tvCaption.setText(post.getDescription());
 
         Glide.with(context).load(post.getImage().getUrl()).into(holder.ivPic);
@@ -61,8 +66,6 @@ public class InstaAdapter extends RecyclerView.Adapter<InstaAdapter.ViewHolder>{
             ivPic = (ImageView) itemView.findViewById(R.id.ivPic);
             tvCaption = (TextView) itemView.findViewById(R.id.tvCaption);
             tvHandle = (TextView) itemView.findViewById(R.id.tvHandle);
-
-
         }
     }
 
