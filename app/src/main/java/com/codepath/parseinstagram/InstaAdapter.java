@@ -74,4 +74,10 @@ public class InstaAdapter extends RecyclerView.Adapter<InstaAdapter.ViewHolder>{
         mPosts.clear();
         notifyDataSetChanged();
     }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Post> list) {
+        mPosts.addAll(list);
+        notifyDataSetChanged();
+    }
 }

@@ -1,10 +1,14 @@
 package com.codepath.parseinstagram;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.codepath.parseinstagram.model.Post;
 import com.parse.FindCallback;
@@ -20,8 +24,9 @@ public class FeedActivity extends AppCompatActivity {
     InstaAdapter postAdapter;
     List<Post> posts;
     RecyclerView rvPosts;
+    Button profileBtn;
 
-
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,13 @@ public class FeedActivity extends AppCompatActivity {
         rvPosts.setAdapter(postAdapter);
 
         loadTopPosts();
+
+
+    }
+
+    public void onProfileClick(View view){
+        Intent intent = new Intent(FeedActivity.this, UserProfileActivity.class);
+        startActivity(intent);
     }
 
     private void loadTopPosts() {
@@ -45,7 +57,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
+                    for (int i = objects.size() -  1 ; i >= 1; i--) {
                         Log.d("HomeActivity", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().toString());
