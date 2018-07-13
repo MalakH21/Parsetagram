@@ -10,22 +10,12 @@
     android:id="@+id/homeLayout">
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="107dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/postBtn2"
-        android:layout_centerHorizontal="true"
-        android:text="Button"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="219dp" />
-
-    <Button
         android:id="@+id/postBtn2"
         android:layout_width="111dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="116dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/takephotoButton"
+        android:layout_marginEnd="69dp"
         android:text="Post"
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="119dp" />
@@ -39,16 +29,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="55dp"
+        android:layout_marginStart="48dp"
         android:text="Take photo"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="426dp" />
 
     <ImageView
         android:id="@+id/photoSave"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="199dp"
+        android:layout_height="182dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="101dp" />
@@ -68,5 +59,18 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="141dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="caption" />
+    </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>
