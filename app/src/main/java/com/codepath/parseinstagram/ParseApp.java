@@ -19,5 +19,6 @@ public class ParseApp extends Application {
                 .server("http://malakh21-fbu-instagram.herokuapp.com/parse")
                 .build();
         Parse.initialize(configuration);
+
     }
 }
