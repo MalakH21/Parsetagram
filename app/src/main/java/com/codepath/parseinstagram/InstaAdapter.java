@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +63,7 @@ public class InstaAdapter extends RecyclerView.Adapter<InstaAdapter.ViewHolder>{
         public TextView tvCaption;
         public TextView tvHandle;
         public ImageView ivPic;
+        public EditText caption;
         //public Button reply;
 
         public ViewHolder(View itemView){
@@ -70,6 +72,7 @@ public class InstaAdapter extends RecyclerView.Adapter<InstaAdapter.ViewHolder>{
             ivPic = (ImageView) itemView.findViewById(R.id.ivPic);
             tvCaption = (TextView) itemView.findViewById(R.id.tvCaption);
             tvHandle = (TextView) itemView.findViewById(R.id.tvHandle);
+            caption = (EditText) itemView.findViewById(R.id.caption);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

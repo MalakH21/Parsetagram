@@ -16,6 +16,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class FeedActivity extends AppCompatActivity {
     RecyclerView rvPosts;
     Button profileBtn;
     private SwipeRefreshLayout swipeContainer;
+    private static final int CREATE_REQUEST = 20;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -66,12 +69,23 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CREATE_REQUEST && resultCode == RESULT_OK) {
+            Post post = (Post) Parcels.unwrap(data.getParcelableExtra("post"));
+            posts.add(0, post);
+            postAdapter.notifyItemInserted(0);
+            rvPosts.scrollToPosition(0);
+        }
+    }
+
     public void onProfileClick(View view){
         Intent intent = new Intent(FeedActivity.this, UserProfileActivity.class);
         startActivity(intent);
     }
 
     private void loadTopPosts() {
+        postAdapter.clear();
 
         final Post.Query postQuery = new Post.Query();
         postQuery.getTop().withUser();
@@ -80,12 +94,11 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
-                    for (int i = objects.size() -  1 ; i >= 1; i--) {
+                    for (int i = objects.size() - 1; i >= 0; i--) {
                         Log.d("HomeActivity", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().toString());
-                        Post post = new Post();
-                        post = objects.get(i);
+                        Post post = objects.get(i);
                         posts.add(post);
                         postAdapter.notifyItemInserted(posts.size() - 1);
                     }
@@ -94,5 +107,6 @@ public class FeedActivity extends AppCompatActivity {
                 }
             }
         });
+//        postAdapter.addAll(posts);
     }
 }

@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_home);
         photoSave = (ImageView) findViewById(R.id.photoSave);
-
+        descriptionInput = (EditText) findViewById(R.id.caption);
         filesDir = getApplicationContext().getFilesDir();
         //descriptionInput = findViewById(R.id.description_et);
         //createButton = findViewById(R.id.create_btn);
@@ -177,18 +177,12 @@ public class HomeActivity extends AppCompatActivity {
             ParseFile parseFile = new ParseFile(photoFile);
             parseFile.saveInBackground();
 
-            createPost("post222", parseFile, ParseUser.getCurrentUser(), ParseUser.getCurrentUser().getString("handle"));
+            createPost(String.valueOf(descriptionInput.getText()), parseFile, ParseUser.getCurrentUser(), ParseUser.getCurrentUser().getString("handle"));
         }else { // Result was a failure
             Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
         }
 
-
-
-
-
     }
-
-
 
     public File getPhotoFileUri() throws IOException {
         // Get safe storage directory for photos
@@ -210,17 +204,6 @@ public class HomeActivity extends AppCompatActivity {
                 storageDir      /* directory */
         );
         photoFileName = image.getAbsolutePath();
-
-
-
-
-
-
-
-
-        // Return the file target for the photo based on filename
-        //File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return image;
     }
 

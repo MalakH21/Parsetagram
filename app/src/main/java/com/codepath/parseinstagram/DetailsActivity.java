@@ -17,6 +17,7 @@ public class DetailsActivity extends AppCompatActivity {
     ImageView ivUserPost;
     ImageView ivProfileImage;
     TextView tvTime;
+    TextView caption;
 
 
 
@@ -29,6 +30,7 @@ public class DetailsActivity extends AppCompatActivity {
         ivUserPost = (ImageView) findViewById(R.id.ivUserPost);
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvTime = (TextView) findViewById(R.id.tvTime);
+        caption = (TextView) findViewById(R.id.caption);
 
         Post post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 //        tvUserHandle.setText(getIntent().getStringExtra("handle"));

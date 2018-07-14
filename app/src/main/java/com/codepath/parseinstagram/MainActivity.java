@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Button loginBtn;
     private Button signupBtn;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.password);
         loginBtn = findViewById(R.id.loginbutton);
         signupBtn = findViewById(R.id.signupBtn);
+
 
         ParseUser currentUser = ParseUser.getCurrentUser();
 
